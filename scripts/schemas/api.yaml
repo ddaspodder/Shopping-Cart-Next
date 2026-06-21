@@ -1,0 +1,334 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Shopping Cart API", "version": "1.0.0" },
+  "components":
+    {
+      "schemas":
+        {
+          "ProductParams":
+            {
+              "type": "object",
+              "properties":
+                { "id": { "type": ["integer", "null"], "minimum": 0 } },
+              "required": ["id"],
+            },
+          "ProductsQuery":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "search": { "type": "string", "pattern": "^(name):.+$" },
+                  "sort":
+                    {
+                      "type": "string",
+                      "pattern": "^(name|price):(asc|desc)$",
+                    },
+                  "limit": { "type": "number", "minimum": 1 },
+                  "offset": { "type": ["number", "null"], "minimum": 0 },
+                  "name": { "type": "string" },
+                  "price_min": { "type": ["number", "null"], "minimum": 0 },
+                  "price_max": { "type": ["number", "null"], "minimum": 0 },
+                },
+            },
+          "GetAllProductsResponse":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "status": { "type": "string", "enum": ["success"] },
+                  "data":
+                    {
+                      "type": "object",
+                      "properties":
+                        {
+                          "products":
+                            {
+                              "type": "array",
+                              "items":
+                                {
+                                  "type": "object",
+                                  "properties":
+                                    {
+                                      "id": { "type": "number" },
+                                      "name": { "type": "string" },
+                                      "price": { "type": "number" },
+                                      "isActive": { "type": "boolean" },
+                                    },
+                                  "required":
+                                    ["id", "name", "price", "isActive"],
+                                },
+                            },
+                          "hasNext": { "type": "boolean" },
+                          "totalCount": { "type": "number" },
+                        },
+                      "required": ["products", "hasNext", "totalCount"],
+                    },
+                },
+              "required": ["status", "data"],
+            },
+          "ProductResponse":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "status": { "type": "string", "enum": ["success"] },
+                  "data":
+                    {
+                      "type": "object",
+                      "properties":
+                        {
+                          "id": { "type": "number" },
+                          "name": { "type": "string" },
+                          "price": { "type": "number" },
+                          "isActive": { "type": "boolean" },
+                        },
+                      "required": ["id", "name", "price", "isActive"],
+                    },
+                },
+              "required": ["status", "data"],
+            },
+        },
+      "parameters": {},
+    },
+  "paths":
+    {
+      "/products/{id}":
+        {
+          "get":
+            {
+              "description": "Get product by id",
+              "tags": ["Products"],
+              "parameters":
+                [
+                  {
+                    "schema": { "type": ["integer", "null"], "minimum": 0 },
+                    "required": false,
+                    "name": "id",
+                    "in": "path",
+                  },
+                ],
+              "responses":
+                {
+                  "200":
+                    {
+                      "description": "Product",
+                      "content":
+                        {
+                          "application/json":
+                            {
+                              "schema":
+                                {
+                                  "type": "object",
+                                  "properties":
+                                    {
+                                      "status":
+                                        {
+                                          "type": "string",
+                                          "enum": ["success"],
+                                        },
+                                      "data":
+                                        {
+                                          "type": "object",
+                                          "properties":
+                                            {
+                                              "id": { "type": "number" },
+                                              "name": { "type": "string" },
+                                              "price": { "type": "number" },
+                                              "isActive": { "type": "boolean" },
+                                            },
+                                          "required":
+                                            ["id", "name", "price", "isActive"],
+                                        },
+                                    },
+                                  "required": ["status", "data"],
+                                },
+                            },
+                        },
+                    },
+                  "500":
+                    {
+                      "description": "Internal Server Error",
+                      "content":
+                        {
+                          "application/json":
+                            {
+                              "schema":
+                                {
+                                  "type": "object",
+                                  "properties":
+                                    {
+                                      "status":
+                                        {
+                                          "type": "string",
+                                          "enum": ["failure"],
+                                        },
+                                      "message": { "type": "string" },
+                                    },
+                                  "required": ["status", "message"],
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+      "/products":
+        {
+          "get":
+            {
+              "description": "Get products",
+              "tags": ["Products"],
+              "parameters":
+                [
+                  {
+                    "schema": { "type": "string", "pattern": "^(name):.+$" },
+                    "required": false,
+                    "name": "search",
+                    "in": "query",
+                  },
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "pattern": "^(name|price):(asc|desc)$",
+                      },
+                    "required": false,
+                    "name": "sort",
+                    "in": "query",
+                  },
+                  {
+                    "schema": { "type": "number", "minimum": 1 },
+                    "required": false,
+                    "name": "limit",
+                    "in": "query",
+                  },
+                  {
+                    "schema": { "type": ["number", "null"], "minimum": 0 },
+                    "required": false,
+                    "name": "offset",
+                    "in": "query",
+                  },
+                  {
+                    "schema": { "type": "string" },
+                    "required": false,
+                    "name": "name",
+                    "in": "query",
+                  },
+                  {
+                    "schema": { "type": ["number", "null"], "minimum": 0 },
+                    "required": false,
+                    "name": "price_min",
+                    "in": "query",
+                  },
+                  {
+                    "schema": { "type": ["number", "null"], "minimum": 0 },
+                    "required": false,
+                    "name": "price_max",
+                    "in": "query",
+                  },
+                ],
+              "responses":
+                {
+                  "200":
+                    {
+                      "description": "Product",
+                      "content":
+                        {
+                          "application/json":
+                            {
+                              "schema":
+                                {
+                                  "type": "object",
+                                  "properties":
+                                    {
+                                      "status":
+                                        {
+                                          "type": "string",
+                                          "enum": ["success"],
+                                        },
+                                      "data":
+                                        {
+                                          "type": "object",
+                                          "properties":
+                                            {
+                                              "products":
+                                                {
+                                                  "type": "array",
+                                                  "items":
+                                                    {
+                                                      "type": "object",
+                                                      "properties":
+                                                        {
+                                                          "id":
+                                                            {
+                                                              "type": "number",
+                                                            },
+                                                          "name":
+                                                            {
+                                                              "type": "string",
+                                                            },
+                                                          "price":
+                                                            {
+                                                              "type": "number",
+                                                            },
+                                                          "isActive":
+                                                            {
+                                                              "type": "boolean",
+                                                            },
+                                                        },
+                                                      "required":
+                                                        [
+                                                          "id",
+                                                          "name",
+                                                          "price",
+                                                          "isActive",
+                                                        ],
+                                                    },
+                                                },
+                                              "hasNext": { "type": "boolean" },
+                                              "totalCount":
+                                                { "type": "number" },
+                                            },
+                                          "required":
+                                            [
+                                              "products",
+                                              "hasNext",
+                                              "totalCount",
+                                            ],
+                                        },
+                                    },
+                                  "required": ["status", "data"],
+                                },
+                            },
+                        },
+                    },
+                  "500":
+                    {
+                      "description": "Internal Server Error",
+                      "content":
+                        {
+                          "application/json":
+                            {
+                              "schema":
+                                {
+                                  "type": "object",
+                                  "properties":
+                                    {
+                                      "status":
+                                        {
+                                          "type": "string",
+                                          "enum": ["failure"],
+                                        },
+                                      "message": { "type": "string" },
+                                    },
+                                  "required": ["status", "message"],
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+  "webhooks": {},
+}

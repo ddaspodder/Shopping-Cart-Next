@@ -1,0 +1,29 @@
+{
+  "name": "shopping-cart-fsd",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "generate-client": "node scripts/generate-client.ts"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.101.0",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@hey-api/client-next": "^0.5.1",
+    "@hey-api/openapi-ts": "0.98.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "typescript": "^5"
+  }
+}
