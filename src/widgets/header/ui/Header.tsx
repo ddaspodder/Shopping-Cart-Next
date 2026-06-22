@@ -36,7 +36,10 @@ export const Header = () => {
               <span className={styles.username}>username</span>
             </li>
             <li>
-              <Link className={`${styles.link} ${styles.signOut}`} href="/login">
+              <Link
+                className={`${styles.link} ${styles.signOut}`}
+                href="/login"
+              >
                 Sign out
               </Link>
             </li>

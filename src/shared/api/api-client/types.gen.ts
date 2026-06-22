@@ -24,7 +24,7 @@ export type GetAllProductsResponse = {
         products: Array<{
             id: number;
             name: string;
-            price: number;
+            price: string;
             isActive: boolean;
         }>;
         hasNext: boolean;
@@ -37,7 +37,7 @@ export type ProductResponse = {
     data: {
         id: number;
         name: string;
-        price: number;
+        price: string;
         isActive: boolean;
     };
 };
@@ -72,7 +72,7 @@ export type GetProductsByIdResponses = {
         data: {
             id: number;
             name: string;
-            price: number;
+            price: string;
             isActive: boolean;
         };
     };
@@ -117,7 +117,7 @@ export type GetProductsResponses = {
             products: Array<{
                 id: number;
                 name: string;
-                price: number;
+                price: string;
                 isActive: boolean;
             }>;
             hasNext: boolean;
