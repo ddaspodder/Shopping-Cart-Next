@@ -1,28 +1,23 @@
 "use client";
 
 import type { FormEvent } from "react";
-import type { ProductsQuery } from "@/src/shared/api/api-client";
-
-import { useProductSearch } from "../api/useProductSearch";
 import styles from "./product-search.module.css";
 
 type ProductSearchProps = {
-  query: ProductsQuery;
   value: string;
   onChange: (value: string) => void;
   onSubmit: (value: string) => void;
+  count?: number;
+  isFetching?: boolean;
 };
 
 export const ProductSearch = ({
-  query,
   value,
   onChange,
   onSubmit,
+  count = 0,
+  isFetching = false,
 }: ProductSearchProps) => {
-  const { data, isFetching } = useProductSearch(query);
-
-  const count = data?.data?.data.totalCount;
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(value);

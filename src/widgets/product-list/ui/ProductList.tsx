@@ -1,73 +1,58 @@
 "use client";
 
-import { useState } from "react";
-
-import {
-  ProductFilter,
-  ProductSearch,
-  useProductSearch,
-} from "@/src/features/product-search";
-import { ProductCard } from "@/src/entitities/products/ui/ProductCard";
+import { useProductsInfinite } from "@/src/entities/product";
+import { ProductCard } from "@/src/entities/product";
+import { ProductFilter, ProductSearch } from "@/src/features/product-search";
+import { useProductList } from "../model/useProductList";
+import { useIsAuthenticated } from "@/src/entities/user/api/useIsAuthenticated";
 import styles from "./product-list.module.css";
-import type { ProductsQuery } from "@/src/shared/api/api-client";
-
-type SortField = "name" | "price";
-type SortDirection = "asc" | "desc";
-
-const buildQuery = (
-  search: string,
-  sortField: SortField,
-  sortDirection: SortDirection,
-  priceMin: string,
-  priceMax: string,
-): ProductsQuery => ({
-  search: search.trim() || undefined,
-  sort: `${sortField}:${sortDirection}`,
-  price_min: priceMin ? Number(priceMin) : undefined,
-  price_max: priceMax ? Number(priceMax) : undefined,
-  limit: 12,
-});
 
 export const ProductList = () => {
-  const [searchDraft, setSearchDraft] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortField, setSortField] = useState<SortField>("name");
-  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [priceMin, setPriceMin] = useState("");
-  const [priceMax, setPriceMax] = useState("");
-
-  const query = buildQuery(
-    searchTerm,
+  const {
+    searchDraft,
+    setSearchDraft,
+    setSearchTerm,
     sortField,
+    setSortField,
     sortDirection,
+    setSortDirection,
     priceMin,
+    setPriceMin,
     priceMax,
-  );
-  const { data, error, isLoading } = useProductSearch(query);
-  const products = data?.data?.data?.products ?? [];
+    setPriceMax,
+    query,
+    reset,
+    loadMoreButton,
+  } = useProductList();
 
-  const handleReset = () => {
-    setSearchDraft("");
-    setSearchTerm("");
-    setSortField("name");
-    setSortDirection("asc");
-    setPriceMin("");
-    setPriceMax("");
-  };
+  const {
+    data,
+    error,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useProductsInfinite(query);
+  const pages = data?.pages ?? [];
+  const products = pages.flatMap((page) => page.data?.data.products ?? []);
+  const totalCount = products.length;
+
+  const { data: isAuthenticated } = useIsAuthenticated();
 
   return (
     <section className={styles.shell} aria-label="Product search">
       <ProductSearch
-        query={query}
         value={searchDraft}
         onChange={setSearchDraft}
         onSubmit={setSearchTerm}
+        count={totalCount}
+        isFetching={isFetching}
       />
 
       <div className={styles.content}>
         <aside className={styles.sidebar}>
           <ProductFilter
-            query={query}
             sortField={sortField}
             sortDirection={sortDirection}
             onSortFieldChange={setSortField}
@@ -76,7 +61,9 @@ export const ProductList = () => {
             priceMax={priceMax}
             onPriceMinChange={setPriceMin}
             onPriceMaxChange={setPriceMax}
-            onReset={handleReset}
+            onReset={reset}
+            count={totalCount}
+            isFetching={isFetching}
           />
         </aside>
 
@@ -89,7 +76,7 @@ export const ProductList = () => {
                 your cart.
               </p>
             </div>
-            <span className={styles.badge}>{products.length} shown</span>
+            <span className={styles.badge}>{totalCount} shown</span>
           </div>
 
           {isLoading ? (
@@ -101,13 +88,28 @@ export const ProductList = () => {
           ) : products.length > 0 ? (
             <div className={styles.grid}>
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  showAddToCartButton={isAuthenticated}
+                />
               ))}
             </div>
           ) : (
             <div className={styles.state}>
               No products matched the current filters.
             </div>
+          )}
+          {hasNextPage && (
+            <button
+              className={styles.loadMore}
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              aria-label={loadMoreButton.ariaLabel}
+            >
+              {isFetchingNextPage ? "Loading..." : loadMoreButton.label}
+            </button>
           )}
         </div>
       </div>

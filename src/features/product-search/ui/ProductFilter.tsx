@@ -1,12 +1,8 @@
 "use client";
 
-import type { ProductsQuery } from "@/src/shared/api/api-client";
-
-import { useProductSearch } from "../api/useProductSearch";
 import styles from "./product-filter.module.css";
 
 type ProductFilterProps = {
-  query: ProductsQuery;
   sortField: "name" | "price";
   sortDirection: "asc" | "desc";
   onSortFieldChange: (value: "name" | "price") => void;
@@ -16,10 +12,11 @@ type ProductFilterProps = {
   onPriceMinChange: (value: string) => void;
   onPriceMaxChange: (value: string) => void;
   onReset: () => void;
+  count?: number;
+  isFetching?: boolean;
 };
 
 export const ProductFilter = ({
-  query,
   sortField,
   sortDirection,
   onSortFieldChange,
@@ -29,10 +26,9 @@ export const ProductFilter = ({
   onPriceMinChange,
   onPriceMaxChange,
   onReset,
+  count = 0,
+  isFetching = false,
 }: ProductFilterProps) => {
-  const { data, isFetching } = useProductSearch(query);
-  const count = data?.data?.data?.totalCount ?? 0;
-
   return (
     <section className={styles.filter}>
       <div className={styles.header}>
@@ -64,7 +60,7 @@ export const ProductFilter = ({
           <span className={styles.label}>Direction</span>
           <select
             className={styles.select}
-            value={sortDirection}
+            defaultValue={sortDirection}
             onChange={(event) =>
               onSortDirectionChange(event.target.value as "asc" | "desc")
             }
@@ -84,7 +80,7 @@ export const ProductFilter = ({
             min="0"
             step="1"
             placeholder="0"
-            value={priceMin}
+            defaultValue={priceMin}
             onChange={(event) => onPriceMinChange(event.target.value)}
           />
         </label>
@@ -97,7 +93,7 @@ export const ProductFilter = ({
             min="0"
             step="1"
             placeholder="1000"
-            value={priceMax}
+            defaultValue={priceMax}
             onChange={(event) => onPriceMaxChange(event.target.value)}
           />
         </label>

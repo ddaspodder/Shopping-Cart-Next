@@ -1,11 +1,11 @@
 import Link from "next/link";
-
+import { ROUTES } from "@/src/shared/config/";
 import styles from "./footer.module.css";
 
 const shopLinks = [
-  { href: "/products-search", label: "Products" },
-  { href: "/orders", label: "Orders" },
-  { href: "/cart", label: "Cart" },
+  { href: ROUTES.PRODUCTS_SEARCH, label: "Products" },
+  { href: ROUTES.ORDERS, label: "Orders" },
+  { href: ROUTES.CART, label: "Cart" },
 ];
 
 const supportLinks = [
@@ -17,7 +17,7 @@ const supportLinks = [
 const companyLinks = [
   { href: "#about", label: "About" },
   { href: "#careers", label: "Careers" },
-  { href: "/login", label: "Sign in" },
+  { href: ROUTES.LOGIN, label: "Sign in" },
 ];
 
 export const Footer = () => {

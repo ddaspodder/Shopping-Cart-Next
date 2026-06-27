@@ -1,0 +1,44 @@
+.quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.control {
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--foreground);
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.control:hover:not(:disabled),
+.control:focus-visible:not(:disabled) {
+  transform: translateY(-1px);
+  background: #0b1220;
+}
+
+.control:disabled {
+  opacity: 0.72;
+  cursor: wait;
+  transform: none;
+}
+
+.value {
+  min-width: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--foreground);
+}

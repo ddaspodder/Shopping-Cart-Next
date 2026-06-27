@@ -85,6 +85,11 @@
   border: 1px solid transparent;
 }
 
+.link,
+.username {
+  font: inherit;
+}
+
 .link:hover,
 .link:focus-visible {
   color: var(--foreground);
@@ -103,6 +108,12 @@
 .signOut {
   color: var(--accent-strong);
   background: var(--accent-soft);
+}
+
+button.signOut {
+  appearance: none;
+  border: 1px solid transparent;
+  cursor: pointer;
 }
 
 .signOut:hover,

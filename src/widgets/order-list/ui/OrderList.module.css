@@ -1,0 +1,139 @@
+.shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titleWrap {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.eyebrow {
+  width: fit-content;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.count {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--background-elevated);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--foreground-soft);
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.order {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--background-elevated);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.orderHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.orderInfo {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.orderLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.orderMeta {
+  color: var(--foreground-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.orderStats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 0.6rem;
+}
+
+.status,
+.amount {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.amount {
+  color: var(--accent-strong);
+}
+
+.items {
+  display: grid;
+  gap: 0;
+}
+
+.empty {
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.emptyTitle {
+  font-weight: 700;
+}
+
+.emptyText {
+  margin-top: 0.3rem;
+  color: var(--foreground-soft);
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .orderHeader {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .count {
+    width: fit-content;
+  }
+}

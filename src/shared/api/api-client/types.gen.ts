@@ -42,6 +42,93 @@ export type ProductResponse = {
     };
 };
 
+export type CreateUserInput = {
+    email: string;
+    password: string;
+};
+
+export type SignInInput = {
+    email: string;
+    password: string;
+};
+
+export type UserResponse = {
+    id: number;
+    email: string;
+    role: string;
+};
+
+export type CreateUserResponse = {
+    user: {
+        id: number;
+        email: string;
+        role: string;
+    };
+    token: string;
+};
+
+export type SignInResponse = {
+    token: string;
+};
+
+export type UpdateCartInput = {
+    productId: number;
+    quantity?: number;
+};
+
+export type CartResponse = {
+    id: number;
+    userId: number;
+    createdAt: string;
+    updatedAt: string;
+    cartItems: Array<{
+        id: number;
+        cartId: number;
+        productId: number;
+        quantity: number;
+        createdAt: string;
+        updatedAt: string;
+        products: {
+            id: number;
+            name: string;
+            price: string;
+            isActive: boolean;
+        };
+    }>;
+};
+
+export type OrderParams = {
+    id: number | null;
+};
+
+export type UpdateOrderStatusInput = {
+    status: 'created' | 'shipped' | 'delivered' | 'cancelled';
+};
+
+export type OrderResponse = {
+    id: number;
+    userId: number;
+    totalAmount: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    orderItems: Array<{
+        id: number;
+        orderId: number;
+        productId: number;
+        quantity: number;
+        price: string;
+        createdAt: string;
+        updatedAt: string;
+        products: {
+            id: number;
+            name: string;
+            price: string;
+            isActive: boolean;
+        };
+    }>;
+};
+
 export type GetProductsByIdData = {
     body?: never;
     path?: {
@@ -127,3 +214,595 @@ export type GetProductsResponses = {
 };
 
 export type GetProductsResponse = GetProductsResponses[keyof GetProductsResponses];
+
+export type GetCurrentUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type GetCurrentUserErrors = {
+    /**
+     * User not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type GetCurrentUserError = GetCurrentUserErrors[keyof GetCurrentUserErrors];
+
+export type GetCurrentUserResponses = {
+    /**
+     * Users
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            email: string;
+            role: string;
+        };
+    };
+};
+
+export type GetCurrentUserResponse = GetCurrentUserResponses[keyof GetCurrentUserResponses];
+
+export type RegisterUserData = {
+    body?: {
+        email: string;
+        password: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/register';
+};
+
+export type RegisterUserErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type RegisterUserError = RegisterUserErrors[keyof RegisterUserErrors];
+
+export type RegisterUserResponses = {
+    /**
+     * User
+     */
+    201: {
+        status: 'success';
+        data: {
+            user: {
+                id: number;
+                email: string;
+                role: string;
+            };
+            token: string;
+        };
+    };
+};
+
+export type RegisterUserResponse = RegisterUserResponses[keyof RegisterUserResponses];
+
+export type SignInUserData = {
+    body?: {
+        email: string;
+        password: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/signin';
+};
+
+export type SignInUserErrors = {
+    /**
+     * Unauthorized
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type SignInUserError = SignInUserErrors[keyof SignInUserErrors];
+
+export type SignInUserResponses = {
+    /**
+     * User
+     */
+    200: {
+        status: 'success';
+        data: {
+            token: string;
+        };
+    };
+};
+
+export type SignInUserResponse = SignInUserResponses[keyof SignInUserResponses];
+
+export type GetCartData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/cart';
+};
+
+export type GetCartErrors = {
+    /**
+     * Cart not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type GetCartError = GetCartErrors[keyof GetCartErrors];
+
+export type GetCartResponses = {
+    /**
+     * Cart
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            createdAt: string;
+            updatedAt: string;
+            cartItems: Array<{
+                id: number;
+                cartId: number;
+                productId: number;
+                quantity: number;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type GetCartResponse = GetCartResponses[keyof GetCartResponses];
+
+export type AddToCartData = {
+    body?: {
+        productId: number;
+        quantity?: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/cart/add';
+};
+
+export type AddToCartErrors = {
+    /**
+     * Product not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type AddToCartError = AddToCartErrors[keyof AddToCartErrors];
+
+export type AddToCartResponses = {
+    /**
+     * Updated cart
+     */
+    201: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            createdAt: string;
+            updatedAt: string;
+            cartItems: Array<{
+                id: number;
+                cartId: number;
+                productId: number;
+                quantity: number;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type AddToCartResponse = AddToCartResponses[keyof AddToCartResponses];
+
+export type RemoveFromCartData = {
+    body?: {
+        productId: number;
+        quantity?: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/cart/remove';
+};
+
+export type RemoveFromCartErrors = {
+    /**
+     * Product or cart not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type RemoveFromCartError = RemoveFromCartErrors[keyof RemoveFromCartErrors];
+
+export type RemoveFromCartResponses = {
+    /**
+     * Updated cart
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            createdAt: string;
+            updatedAt: string;
+            cartItems: Array<{
+                id: number;
+                cartId: number;
+                productId: number;
+                quantity: number;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type RemoveFromCartResponse = RemoveFromCartResponses[keyof RemoveFromCartResponses];
+
+export type ClearCartData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/cart/clear';
+};
+
+export type ClearCartErrors = {
+    /**
+     * Cart not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type ClearCartError = ClearCartErrors[keyof ClearCartErrors];
+
+export type ClearCartResponses = {
+    /**
+     * Cleared cart
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            createdAt: string;
+            updatedAt: string;
+            cartItems: Array<{
+                id: number;
+                cartId: number;
+                productId: number;
+                quantity: number;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type ClearCartResponse = ClearCartResponses[keyof ClearCartResponses];
+
+export type GetOrdersData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/orders';
+};
+
+export type GetOrdersErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type GetOrdersError = GetOrdersErrors[keyof GetOrdersErrors];
+
+export type GetOrdersResponses = {
+    /**
+     * Orders
+     */
+    200: {
+        status: 'success';
+        data: Array<{
+            id: number;
+            userId: number;
+            totalAmount: string;
+            status: string;
+            createdAt: string;
+            updatedAt: string;
+            orderItems: Array<{
+                id: number;
+                orderId: number;
+                productId: number;
+                quantity: number;
+                price: string;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        }>;
+    };
+};
+
+export type GetOrdersResponse = GetOrdersResponses[keyof GetOrdersResponses];
+
+export type CreateOrderData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/orders';
+};
+
+export type CreateOrderErrors = {
+    /**
+     * Cart is empty or invalid
+     */
+    400: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type CreateOrderError = CreateOrderErrors[keyof CreateOrderErrors];
+
+export type CreateOrderResponses = {
+    /**
+     * Order created
+     */
+    201: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            totalAmount: string;
+            status: string;
+            createdAt: string;
+            updatedAt: string;
+            orderItems: Array<{
+                id: number;
+                orderId: number;
+                productId: number;
+                quantity: number;
+                price: string;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type CreateOrderResponse = CreateOrderResponses[keyof CreateOrderResponses];
+
+export type GetOrderByIdData = {
+    body?: never;
+    path?: {
+        id?: number | null;
+    };
+    query?: never;
+    url: '/orders/{id}';
+};
+
+export type GetOrderByIdErrors = {
+    /**
+     * Order not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type GetOrderByIdError = GetOrderByIdErrors[keyof GetOrderByIdErrors];
+
+export type GetOrderByIdResponses = {
+    /**
+     * Order
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            totalAmount: string;
+            status: string;
+            createdAt: string;
+            updatedAt: string;
+            orderItems: Array<{
+                id: number;
+                orderId: number;
+                productId: number;
+                quantity: number;
+                price: string;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type GetOrderByIdResponse = GetOrderByIdResponses[keyof GetOrderByIdResponses];
+
+export type UpdateOrderStatusData = {
+    body?: {
+        status: 'created' | 'shipped' | 'delivered' | 'cancelled';
+    };
+    path?: {
+        id?: number | null;
+    };
+    query?: never;
+    url: '/orders/{id}/status';
+};
+
+export type UpdateOrderStatusErrors = {
+    /**
+     * Order not found
+     */
+    404: {
+        status: 'failure';
+        message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        status: 'failure';
+        message: string;
+    };
+};
+
+export type UpdateOrderStatusError = UpdateOrderStatusErrors[keyof UpdateOrderStatusErrors];
+
+export type UpdateOrderStatusResponses = {
+    /**
+     * Updated order
+     */
+    200: {
+        status: 'success';
+        data: {
+            id: number;
+            userId: number;
+            totalAmount: string;
+            status: string;
+            createdAt: string;
+            updatedAt: string;
+            orderItems: Array<{
+                id: number;
+                orderId: number;
+                productId: number;
+                quantity: number;
+                price: string;
+                createdAt: string;
+                updatedAt: string;
+                products: {
+                    id: number;
+                    name: string;
+                    price: string;
+                    isActive: boolean;
+                };
+            }>;
+        };
+    };
+};
+
+export type UpdateOrderStatusResponse = UpdateOrderStatusResponses[keyof UpdateOrderStatusResponses];

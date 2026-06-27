@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetProductsByIdData, GetProductsByIdErrors, GetProductsByIdResponses, GetProductsData, GetProductsErrors, GetProductsResponses } from './types.gen';
+import type { AddToCartData, AddToCartErrors, AddToCartResponses, ClearCartData, ClearCartErrors, ClearCartResponses, CreateOrderData, CreateOrderErrors, CreateOrderResponses, GetCartData, GetCartErrors, GetCartResponses, GetCurrentUserData, GetCurrentUserErrors, GetCurrentUserResponses, GetOrderByIdData, GetOrderByIdErrors, GetOrderByIdResponses, GetOrdersData, GetOrdersErrors, GetOrdersResponses, GetProductsByIdData, GetProductsByIdErrors, GetProductsByIdResponses, GetProductsData, GetProductsErrors, GetProductsResponses, RegisterUserData, RegisterUserErrors, RegisterUserResponses, RemoveFromCartData, RemoveFromCartErrors, RemoveFromCartResponses, SignInUserData, SignInUserErrors, SignInUserResponses, UpdateOrderStatusData, UpdateOrderStatusErrors, UpdateOrderStatusResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -27,3 +27,93 @@ export const getProductsById = <ThrowOnError extends boolean = false>(options?: 
  * Get products
  */
 export const getProducts = <ThrowOnError extends boolean = false>(options?: Options<GetProductsData, ThrowOnError>): RequestResult<GetProductsResponses, GetProductsErrors, ThrowOnError> => (options?.client ?? client).get<GetProductsResponses, GetProductsErrors, ThrowOnError>({ url: '/products', ...options });
+
+/**
+ * Get current user details
+ */
+export const getCurrentUser = <ThrowOnError extends boolean = false>(options?: Options<GetCurrentUserData, ThrowOnError>): RequestResult<GetCurrentUserResponses, GetCurrentUserErrors, ThrowOnError> => (options?.client ?? client).get<GetCurrentUserResponses, GetCurrentUserErrors, ThrowOnError>({ url: '/auth/me', ...options });
+
+/**
+ * Create user
+ */
+export const registerUser = <ThrowOnError extends boolean = false>(options?: Options<RegisterUserData, ThrowOnError>): RequestResult<RegisterUserResponses, RegisterUserErrors, ThrowOnError> => (options?.client ?? client).post<RegisterUserResponses, RegisterUserErrors, ThrowOnError>({
+    url: '/auth/register',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Sign in user
+ */
+export const signInUser = <ThrowOnError extends boolean = false>(options?: Options<SignInUserData, ThrowOnError>): RequestResult<SignInUserResponses, SignInUserErrors, ThrowOnError> => (options?.client ?? client).post<SignInUserResponses, SignInUserErrors, ThrowOnError>({
+    url: '/auth/signin',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Get the current user's cart
+ */
+export const getCart = <ThrowOnError extends boolean = false>(options?: Options<GetCartData, ThrowOnError>): RequestResult<GetCartResponses, GetCartErrors, ThrowOnError> => (options?.client ?? client).get<GetCartResponses, GetCartErrors, ThrowOnError>({ url: '/cart', ...options });
+
+/**
+ * Add a product to the cart
+ */
+export const addToCart = <ThrowOnError extends boolean = false>(options?: Options<AddToCartData, ThrowOnError>): RequestResult<AddToCartResponses, AddToCartErrors, ThrowOnError> => (options?.client ?? client).post<AddToCartResponses, AddToCartErrors, ThrowOnError>({
+    url: '/cart/add',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Remove a product from the cart
+ */
+export const removeFromCart = <ThrowOnError extends boolean = false>(options?: Options<RemoveFromCartData, ThrowOnError>): RequestResult<RemoveFromCartResponses, RemoveFromCartErrors, ThrowOnError> => (options?.client ?? client).post<RemoveFromCartResponses, RemoveFromCartErrors, ThrowOnError>({
+    url: '/cart/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Clear the current user's cart
+ */
+export const clearCart = <ThrowOnError extends boolean = false>(options?: Options<ClearCartData, ThrowOnError>): RequestResult<ClearCartResponses, ClearCartErrors, ThrowOnError> => (options?.client ?? client).post<ClearCartResponses, ClearCartErrors, ThrowOnError>({ url: '/cart/clear', ...options });
+
+/**
+ * Get all orders for the current user
+ */
+export const getOrders = <ThrowOnError extends boolean = false>(options?: Options<GetOrdersData, ThrowOnError>): RequestResult<GetOrdersResponses, GetOrdersErrors, ThrowOnError> => (options?.client ?? client).get<GetOrdersResponses, GetOrdersErrors, ThrowOnError>({ url: '/orders', ...options });
+
+/**
+ * Create an order from the current cart
+ */
+export const createOrder = <ThrowOnError extends boolean = false>(options?: Options<CreateOrderData, ThrowOnError>): RequestResult<CreateOrderResponses, CreateOrderErrors, ThrowOnError> => (options?.client ?? client).post<CreateOrderResponses, CreateOrderErrors, ThrowOnError>({ url: '/orders', ...options });
+
+/**
+ * Get order by id
+ */
+export const getOrderById = <ThrowOnError extends boolean = false>(options?: Options<GetOrderByIdData, ThrowOnError>): RequestResult<GetOrderByIdResponses, GetOrderByIdErrors, ThrowOnError> => (options?.client ?? client).get<GetOrderByIdResponses, GetOrderByIdErrors, ThrowOnError>({ url: '/orders/{id}', ...options });
+
+/**
+ * Update an order status
+ */
+export const updateOrderStatus = <ThrowOnError extends boolean = false>(options?: Options<UpdateOrderStatusData, ThrowOnError>): RequestResult<UpdateOrderStatusResponses, UpdateOrderStatusErrors, ThrowOnError> => (options?.client ?? client).patch<UpdateOrderStatusResponses, UpdateOrderStatusErrors, ThrowOnError>({
+    url: '/orders/{id}/status',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});

@@ -2,8 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./header.module.css";
+import { getProfile } from "@/src/entities/user";
+import { LogoutButton } from "./LogoutButton";
+import { ROUTES } from "@/src/shared/config/";
 
-export const Header = () => {
+export const Header = async () => {
+  let profile: Awaited<ReturnType<typeof getProfile>> | null = null;
+
+  try {
+    profile = await getProfile();
+  } catch {
+    profile = null;
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -18,36 +29,53 @@ export const Header = () => {
         <nav className={styles.centerNav} aria-label="Primary">
           <ul className={styles.list}>
             <li>
-              <Link className={styles.link} href="/products-search">
+              <Link className={styles.link} href={ROUTES.PRODUCTS_SEARCH}>
                 Products
               </Link>
             </li>
-            <li>
-              <Link className={styles.link} href="/orders">
-                Orders
-              </Link>
-            </li>
+            {profile ? (
+              <li>
+                <Link className={styles.link} href={ROUTES.ORDERS}>
+                  Orders
+                </Link>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </nav>
 
         <nav className={styles.actionsNav} aria-label="Account actions">
           <ul className={styles.list}>
-            <li>
-              <span className={styles.username}>username</span>
-            </li>
-            <li>
-              <Link
-                className={`${styles.link} ${styles.signOut}`}
-                href="/login"
-              >
-                Sign out
-              </Link>
-            </li>
-            <li>
-              <Link className={`${styles.link} ${styles.cart}`} href="/cart">
-                Cart
-              </Link>
-            </li>
+            {profile ? (
+              <>
+                <li>
+                  <span className={styles.username}>{profile.data.email}</span>
+                </li>
+                <li>
+                  <LogoutButton className={`${styles.link} ${styles.signOut}`}>
+                    Logout
+                  </LogoutButton>
+                </li>
+                <li>
+                  <Link
+                    className={`${styles.link} ${styles.cart}`}
+                    href={ROUTES.CART}
+                  >
+                    Cart
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link
+                  className={`${styles.link} ${styles.signOut}`}
+                  href={ROUTES.LOGIN}
+                >
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </div>
