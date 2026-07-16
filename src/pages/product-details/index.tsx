@@ -1,6 +1,3 @@
-import { getProducts } from "@/src/shared/api/client";
-import type { ProductsQuery } from "@/src/shared/api/client/types.gen";
-
 type ProductDetailsPageProps = {
   id?: string;
 };
