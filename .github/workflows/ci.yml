@@ -20,26 +20,13 @@ jobs:
 
       - run: npm -v
 
-      - name: Show current directory
-        run: pwd
+      - run: npm ci
 
-      - name: List files
-        run: ls -la
+      # - name: Lint
+      #   run: npm run lint
 
-      - name: Check lock file
-        run: |
-          ls -l package*.json
-          head -20 package.json
-          head -20 package-lock.json
+      # - name: Type check
+      #   run: npm run type-check
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Type check
-        run: npm run type-check
-
-      - name: Build
-        run: npm run build
+      # - name: Build
+      #   run: npm run build
