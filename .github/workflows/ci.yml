@@ -28,9 +28,9 @@ jobs:
 
       - name: Find emnapi
         run: |
-          grep -R "@emnapi" package-lock.json || true  
+          grep -R "@emnapi" package-lock.json || true
 
-          - run: npm ci
+      - run: npm ci
 
       # - name: Lint
       #   run: npm run lint
