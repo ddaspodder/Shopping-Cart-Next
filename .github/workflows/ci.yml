@@ -16,6 +16,10 @@ jobs:
           node-version: 24
           cache: npm
 
+      - run: node -v
+
+      - run: npm -v
+
       - name: Install dependencies
         run: npm ci
 
