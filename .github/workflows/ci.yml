@@ -14,32 +14,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          # cache: npm
-
-      - run: node -v
-
-      - run: npm -v
-
-      - name: Show package files
-        run: |
-          sha256sum package.json
-          sha256sum package-lock.json
-          grep '"lockfileVersion"' package-lock.json
-
-      - name: Find emnapi
-        run: |
-          grep -R "@emnapi" package-lock.json || true
+          cache: npm
 
       - name: Install
-        run: |
-          npm ci
-          git diff -- package-lock.json
+        run: npm ci
 
-      # - name: Lint
-      #   run: npm run lint
+      - name: Lint
+        run: npm run lint
 
-      # - name: Type check
-      #   run: npm run type-check
+      - name: Type check
+        run: npm run type-check
 
-      # - name: Build
-      #   run: npm run build
+      - name: Build
+        run: npm run build
