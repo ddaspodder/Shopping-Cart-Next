@@ -20,7 +20,17 @@ jobs:
 
       - run: npm -v
 
-      - run: npm ci
+      - name: Show package files
+        run: |
+          sha256sum package.json
+          sha256sum package-lock.json
+          grep '"lockfileVersion"' package-lock.json
+
+      - name: Find emnapi
+        run: |
+          grep -R "@emnapi" package-lock.json || true  
+
+          - run: npm ci
 
       # - name: Lint
       #   run: npm run lint
