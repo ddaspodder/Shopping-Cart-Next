@@ -30,7 +30,10 @@ jobs:
         run: |
           grep -R "@emnapi" package-lock.json || true
 
-      - run: npm install
+      - name: Install
+        run: |
+          npm install
+          git diff -- package-lock.json
 
       # - name: Lint
       #   run: npm run lint
