@@ -20,6 +20,18 @@ jobs:
 
       - run: npm -v
 
+      - name: Show current directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
+      - name: Check lock file
+        run: |
+          ls -l package*.json
+          head -20 package.json
+          head -20 package-lock.json
+
       - name: Install dependencies
         run: npm ci
 
